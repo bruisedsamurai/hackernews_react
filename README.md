@@ -1,5 +1,9 @@
 # Hacker News
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8b8574b9-3ea8-4088-a250-92fda73163bd/deploy-status)](https://app.netlify.com/sites/hackernews-reactified/deploys)
+
+Live version : <https://hackernews-reactified.netlify.com>
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

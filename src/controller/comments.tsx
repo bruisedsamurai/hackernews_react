@@ -6,8 +6,6 @@ import {Loading} from '../component/misc'
 import { clone } from "@babel/types";
 
 
-
-
 enum LoadingState{
   COMPLETE,
   PROCESSING,
@@ -88,7 +86,7 @@ function Comment(props:{hn_id:number, loading_state: any, on_load: ()=> void})
 
     return (
     <details id="icon" className="mw-100 mt2-ns mv1-m mt1 mb0 ml3-ns ml1 mr0 f5-ns f6 bl br1 b--black-20 shadow-4" 
-    open hidden={props.loading_state == LoadingState.PROCESSING? true: false}>
+    open hidden={(props.loading_state == LoadingState.PROCESSING) || !hn_comment.is_valid? true: false}>
     {comment_meta}
     {comment_text}
     {child_comments}
