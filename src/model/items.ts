@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
+import { string } from 'prop-types';
 
 export interface StoryItem{
   id:Number;
@@ -93,7 +94,29 @@ export class CommentItem implements CommentItemInterface{
   get time()
   {
     if(this._time)
-    return this._time 
+    {
+      //this._time display time since epoch in seconds
+      // Date expect input in milliseconds
+      const date = new Date()
+      let delta_time = (date.getTime()/1000 - this._time)/(60*60);
+      if(delta_time < 24){
+          return ` ${Math.floor(delta_time)} hours ago`;
+      }
+      else
+      {
+        delta_time = delta_time/24;
+        if (delta_time < 30)
+          return ` ${Math.floor(delta_time)} days ago`;
+        else
+        {
+          delta_time = delta_time/30;
+          if(delta_time < 12)
+            return ` ${Math.floor(delta_time)} months ago`;
+          else
+            return ` ${Math.floor(delta_time/12)} years ago`;
+        }
+      }
+    }
     else
     return ""
   }
@@ -125,16 +148,13 @@ export function useHeadline(props:{hn_id:number, component_state?: ()=> void}) :
     })
     fetch(request)
     .then((response) => {
-      if(is_mounted.current)
+      if(is_mounted.current && response.ok)
       {
-        if (response.ok) 
-        {
           if(props.component_state != undefined) 
           {
             props.component_state(); 
           }
           response.json().then((data)=>{set_headine(data)});
-      }
       }
     });
 

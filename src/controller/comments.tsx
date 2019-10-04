@@ -6,35 +6,7 @@ import {Loading} from '../component/misc'
 import { clone } from "@babel/types";
 
 
-function getTime(time_since_epoch:number): string {
-    let d = new Date(time_since_epoch*1000);
-    let time: number = (new Date()).getHours() - d.getHours()
-    let time_str:string;
-    if(time < 24){
-      if(time == 0)
-        {
-          time = (new Date()).getMinutes() - d.getMinutes();
-          time_str = ` ${time} minutes ago`;
-        }
-      else
-        time_str = ` ${time} hours ago`;
-    }
-    else
-    {
-      time = time/24;
-      if (time < 30)
-        time_str = ` ${time} days ago`;
-      else
-      {
-        time = time/30;
-        if(time < 12)
-          time_str = ` ${time} months ago`;
-        else
-          time_str = ` ${time/12} years ago`;
-      }
-    }
-    return time_str;
-  }
+
 
 enum LoadingState{
   COMPLETE,
