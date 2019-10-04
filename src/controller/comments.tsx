@@ -85,7 +85,7 @@ function Comment(props:{hn_id:number, loading_state: any, on_load: ()=> void})
   const [child_comments, comment_text, comment_meta] = [...create_comment()];
 
     return (
-    <details id="icon" className="mw-100 mt2-ns mv1-m mt1 mb0 ml3-ns ml1 mr0 f5-ns f6 bl br1 b--black-20 shadow-4" 
+    <details id="icon" className="mw-100 mt2-ns mv1-m mt1 mb0 ml3-ns ml1 mr0 f5-ns f6 bl br1 b--black-20 shadow-6" 
     open hidden={(props.loading_state == LoadingState.PROCESSING) || !hn_comment.is_valid? true: false}>
     {comment_meta}
     {comment_text}
