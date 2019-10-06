@@ -9,7 +9,7 @@ export interface StoryItem{
   text?:string;
   by:string;
   time:number;
-  kids:Array<number>;
+  kids?:Array<number>;
   descendants: number;
   score:number;
 }
@@ -165,3 +165,13 @@ export function useHeadline(props:{hn_id:number, component_state?: ()=> void}) :
 
   return headline;
 }
+
+export const StoriesType = {
+  "news": "topstories",
+  "new": "newstories",
+  "top": "topstories",
+  "best": "beststories",
+  "ask": "askstories",
+  "show": "showstories",
+  "job": "jobstories"
+};

@@ -19,7 +19,9 @@ const App: React.FC = () =>{
   return <BrowserRouter>
   <Route path="/" component={Header}></Route>
   <Switch>
-  <Route exact path="/news" component={News}></Route>
+  <Route exact path={["/news", "/new", "/top", "/best", "/ask", "/show", "/job"]} 
+  render={(route_props)=><News {...route_props} key={route_props.location.pathname} ></News>}>
+  </Route>
   <Route path="/item/:id" component={Comments}></Route>
   <Redirect exact path="/" to="/news"></Redirect>
   </Switch>

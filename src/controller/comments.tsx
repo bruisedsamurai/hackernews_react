@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {Link} from 'react-router-dom';
 
-import {CommentItemInterface, CommentItem, StoryItem, useHeadline} from '../model/items';
+import {CommentItemInterface, CommentItem, StoryItem, useHeadline} from '../interface/items';
 import {Loading} from '../component/misc'
 import { clone } from "@babel/types";
 
@@ -118,7 +118,7 @@ const Comments: React.FC = (props:any) =>
   {
     ++loaded_elements.current;
     let state;
-    state = loaded_elements.current > (headline.kids.length - 2) ? LoadingState.COMPLETE : LoadingState.PROCESSING;
+    state = loaded_elements.current > (headline.kids!.length - 2) ? LoadingState.COMPLETE : LoadingState.PROCESSING;
     if(state != loading_state){
       set_loading_state(state);
       window.scrollTo(0,0);
@@ -139,7 +139,7 @@ const Comments: React.FC = (props:any) =>
 
   let comment, key: number;
 
-  if(headline.kids.length)
+  if(headline.kids && headline.kids.length)
     comment = headline.kids.map((id, index)=> <Comment key={index} hn_id={id} loading_state={loading_state} on_load={on_load}></Comment>)
 
   return (
