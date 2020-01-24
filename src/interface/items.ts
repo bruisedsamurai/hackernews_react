@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import { string } from 'prop-types';
+import { CANCELLED } from 'dns';
 
 export interface StoryItem{
   id:Number;
@@ -93,28 +94,39 @@ export class CommentItem implements CommentItemInterface{
 
   get time()
   {
+    enum Calendar
+    {
+      Year = 60 * 24 * 30 * 12,
+      Month = 60 * 24 * 30,
+      Day = 60 * 24,
+      Hour = 60,
+      Minute = 1,
+    }
     if(this._time)
     {
       //this._time display time since epoch in seconds
       // Date expect input in milliseconds
       const date = new Date()
-      let delta_time = (date.getTime()/1000 - this._time)/(60*60);
-      if(delta_time < 24){
-          return ` ${Math.floor(delta_time)} hours ago`;
-      }
-      else
+      let delta_time = (date.getTime()/1000 - this._time)/(60);
+      switch (true)
       {
-        delta_time = delta_time/24;
-        if (delta_time < 30)
-          return ` ${Math.floor(delta_time)} days ago`;
-        else
-        {
-          delta_time = delta_time/30;
-          if(delta_time < 12)
-            return ` ${Math.floor(delta_time)} months ago`;
-          else
-            return ` ${Math.floor(delta_time/12)} years ago`;
-        }
+        case delta_time > Calendar.Year:
+          return ` ${Math.floor(delta_time/Calendar.Year)} years ago`;
+        
+        case delta_time > Calendar.Month:
+          return ` ${Math.floor(delta_time/Calendar.Month)} month ago`;
+
+        case delta_time > Calendar.Day:
+          return ` ${Math.floor(delta_time/Calendar.Day)} days ago`;
+
+        case delta_time > Calendar.Hour:
+          return ` ${Math.floor(delta_time/Calendar.Hour)} hours ago`;
+
+        case delta_time >= Calendar.Minute:
+          return ` ${Math.floor(delta_time/Calendar.Minute)} minutes ago`;
+        
+        default:
+          return ""
       }
     }
     else

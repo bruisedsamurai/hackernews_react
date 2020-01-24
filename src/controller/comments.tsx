@@ -87,10 +87,10 @@ function Comment(props:{hn_id:number, loading_state: any, on_load: ()=> void})
     return (
     <details id="icon" className="mw-100 mt2-ns mv1-m mt1 mb0 ml3-ns ml1 mr0 f5-ns f6 bl br1 b--black-20 shadow-6" 
     open hidden={(props.loading_state == LoadingState.PROCESSING) || !hn_comment.is_valid? true: false}>
-    {comment_meta}
-    {comment_text}
-    {child_comments}
-  </details>);
+      {comment_meta}
+      {comment_text}
+      {child_comments} 
+    </details>);
   
 }
 
@@ -143,15 +143,15 @@ const Comments: React.FC = (props:any) =>
     comment = headline.kids.map((id, index)=> <Comment key={index} hn_id={id} loading_state={loading_state} on_load={on_load}></Comment>)
 
   return (
-    <article className="">
+    <main className="">
       <div className="mh6-ns mh4-m mh1 ba b--light-gray">
         {story_meta}
-        <section className="mv4" hidden={loading_state == LoadingState.PROCESSING? true: false}>
+        <article className="mv4" hidden={loading_state == LoadingState.PROCESSING? true: false}>
           {comment}
-        </section>
+        </article>
         {loading_state == LoadingState.PROCESSING? <Loading></Loading> : null}
       </div>
-    </article>
+    </main>
   )
 }
 
