@@ -16,9 +16,12 @@ function HNHeadline(props:{hn_id:number, load_state:boolean, on_complete: ()=> v
 
 
   let story_meta = headline.by? 
-  (<div className="ma1 f6 flex">{`${headline.score} points by ${headline.by}`} 
-    <span className="pointer dim mh1" onClick={(e)=>{is_hidden(true)}}>{`| hide |`}</span>
-    <Link className="no-underline black dim" to={"/item/" + headline.id}>
+  (<div className="ma2-ns ma1 f6 flex items-center">
+    <div className="dim dib">{`${headline.score} points by ${headline.by}`}</div>
+    <span className="mh1">|</span>
+    <span className="pointer dim dib" onClick={(e)=>{is_hidden(true)}}>{`hide`}</span>
+    <span className="mh1">|</span>
+    <Link className="no-underline black dim dib" to={"/item/" + headline.id}>
       {headline.descendants != 0 ? headline.descendants + " comments" : "discuss"}
     </Link>
   </div>) : undefined;
