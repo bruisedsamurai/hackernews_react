@@ -1,21 +1,33 @@
 import React from "react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
+export const Header: React.FC = (props: any) => {
+  let pathname = props.location.pathname.slice(1);
 
-export const Header: React.FC = (props:any) => 
-{
-    return (
-    <header className="mh6-ns">
-        <nav>
-            <ul className="list flex pl0 f5-ns f6 mh1">
-                <li className="pa2-ns pa1"><Link className="no-underline black dim" to="/new">New</Link></li> 
-                <li className="pa2-ns pa1"><Link className="no-underline black dim" to="/top">Top</Link></li>
-                <li className="pa2-ns pa1"><Link className="no-underline black dim" to="/best">Best</Link></li>
-                <li className="pa2-ns pa1"><Link className="no-underline black dim" to="/ask">Ask</Link></li>
-                <li className="pa2-ns pa1"><Link className="no-underline black dim" to="/show">Show</Link></li>
-                <li className="pa2-ns pa1"><Link className="no-underline black dim" to="/job">Job</Link></li>
-            </ul>
-        </nav>
+  let paths = ["new", "top", "best", "ask", "show", "job"];
+
+  if (!paths.includes(pathname) && pathname === "news") {
+    pathname = "top";
+  }
+
+  let links = [];
+
+  for (const path of paths) {
+    let className = "nav-link gray";
+    if (pathname == path) {
+      className = className + " br2 bg-light-gray hover-black";
+    }
+    let link = (
+      <Link className={className} to={"/" + path}>
+        {path[0].toUpperCase() + path.slice(1)}
+      </Link>
+    );
+    links.push(link);
+  }
+
+  return (
+    <header className="">
+      <nav className="nav py-3">{links}</nav>
     </header>
-    )
-}
+  );
+};
