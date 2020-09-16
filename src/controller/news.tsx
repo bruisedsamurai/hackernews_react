@@ -20,7 +20,7 @@ function HNHeadline(props: {
   const [redirect, set_redirect] = useState(false); //Redirect to comments page
 
   let story_meta = headline.by ? (
-    <div className="p-2 silver">
+    <div className="p-1 text-gray-100">
       <div className="dim dib">
         <span>
           <span className="mx-1"><UserIcon></UserIcon></span>
@@ -35,7 +35,7 @@ function HNHeadline(props: {
         }}
       >{`hide`}</span>
       <span className="mx-2">|</span>
-      <Link className="silver link" to={"/item/" + headline.id}>
+      <Link className="text-reset text-decoration-none" to={"/item/" + headline.id}>
         {headline.descendants != 0
           ? headline.descendants + " comments"
           : "discuss"}
@@ -47,8 +47,7 @@ function HNHeadline(props: {
   let createHeadelineElement = (variablePropName: string, variablePropValue: any, headlineTitle: string) => {
     const variableAttribute = { [variablePropName]: variablePropValue };
     return (
-      <a
-        className="my-3 p-2 text-dark fw5"
+      <a className="text-reset text-decoration-none"
         {...variableAttribute} >
         {headlineTitle}
       </a>
@@ -71,9 +70,11 @@ function HNHeadline(props: {
             <span className="db f6 light-silver">{headline.score}</span>
             <span className="db f6 moon-gray">points</span>
           </div>
-          <div className="">
-            {headlineElement}
-          {story_meta}
+          <div>
+            <div className="my-1 ml-2 fw5 text-sm-center text-gray-500">
+              {headlineElement}
+            </div>
+            {story_meta}
           </div>
         </div>
       </li>
