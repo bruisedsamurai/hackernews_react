@@ -31,3 +31,31 @@ export const Header: React.FC = (props: any) => {
     </header>
   );
 };
+
+export const HNHeadline = (props:{
+  setRedirect: any,
+  title: string,
+  url?: string,
+}) => {
+
+  let createHeadelineElement = (variablePropName: string, variablePropValue: any, headlineTitle: string) => {
+    const variableAttribute = { [variablePropName]: variablePropValue };
+    return (
+      <a className="text-reset text-decoration-none"
+        {...variableAttribute} >
+        {headlineTitle}
+      </a>
+    );
+  };
+
+  let headlineElement;
+
+  if (props.url === undefined) {
+    headlineElement = createHeadelineElement("onClick", () => props.setRedirect(true), props.title);
+  }
+  else {
+    headlineElement = createHeadelineElement("href", props.url, props.title)
+  }
+
+  return headlineElement;
+}

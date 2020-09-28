@@ -6,8 +6,9 @@ import { Loading, UserIcon } from "../component/misc";
 import { tsPropertySignature } from "@babel/types";
 import { NONAME } from "dns";
 import {LoadState} from "../interface/enums";
+import { HNHeadline } from "../component/sections"
 
-function HNHeadline(props: {
+function HNStoryCard(props: {
   hn_id: number;
   load_state: LoadState;
   on_complete: () => void;
@@ -17,8 +18,8 @@ function HNHeadline(props: {
     hn_id: props.hn_id,
     component_state: props.on_complete,
   });
-  const [hidden, is_hidden] = useState(false);
-  const [redirect, set_redirect] = useState(false); //Redirect to comments page
+  const [hidden, isHidden] = useState(false);
+  const [redirect, setRedirect] = useState(false); //Redirect to comments page
 
   let story_meta = headline.by ? (
     <div className="p-1 text-gray-100">
@@ -32,7 +33,7 @@ function HNHeadline(props: {
       <span
         className="pointer dim dib"
         onClick={(e) => {
-          is_hidden(true);
+          isHidden(true);
         }}
       >{`hide`}</span>
       <span className="mx-2">|</span>
@@ -44,23 +45,7 @@ function HNHeadline(props: {
     </div>
   ) : undefined;
 
-  let headlineElement;
-  let createHeadelineElement = (variablePropName: string, variablePropValue: any, headlineTitle: string) => {
-    const variableAttribute = { [variablePropName]: variablePropValue };
-    return (
-      <a className="text-reset text-decoration-none"
-        {...variableAttribute} >
-        {headlineTitle}
-      </a>
-    );
-  };
-
-  if (headline.url === undefined) {
-    headlineElement = createHeadelineElement("onClick", () => set_redirect(true), headline.title);
-  }
-  else {
-    headlineElement = createHeadelineElement("href", headline.url, headline.title)
-  }
+  let headlineElement = <HNHeadline title={headline.title} url={headline.url} setRedirect={setRedirect}></HNHeadline>
 
   return hidden || (props.load_state == LoadState.InProcess) ? null : redirect ? (
     <Redirect push to={`/item/${headline.id}`}></Redirect>
@@ -146,24 +131,24 @@ const News: React.FC = (props: any) => {
   const items = hn_ids
     .slice(0, max_items)
     .map((num) => (
-      <HNHeadline
+      <HNStoryCard
         hn_id={num}
         key={num}
         load_state={load_state}
         on_complete={on_complete}
-      ></HNHeadline>
+      ></HNStoryCard>
     ));
 
   if (items[items.length - 1]) {
     let hn_id = hn_ids[max_items - 1];
     items[items.length - 1] = (
-      <HNHeadline
+      <HNStoryCard
         hn_id={hn_id}
         key={hn_id}
         ref={ref_load_elem}
         load_state={load_state}
         on_complete={on_complete}
-      ></HNHeadline>
+      ></HNStoryCard>
     );
   }
 
