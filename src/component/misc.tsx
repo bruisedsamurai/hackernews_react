@@ -4,8 +4,8 @@ import loading from "../static/svg/loading.svg";
 
 export function Loading() {
   return (
-    <div className="d-flex justify-content-center">
-      <div className="spinner-border mh-25" style={{width: "250px", height: "250px"}} role="status">
+    <div className="d-flex justify-content-center align-items-center vh-100 ">
+      <div className="spinner-border" style={{width: "10em", height: "10em"}} role="status">
         {" "}
         <span className="sr-only align-middle">Loading...</span>{" "}
       </div>{" "}
