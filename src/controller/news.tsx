@@ -5,10 +5,11 @@ import { StoryItem, useHeadline, StoriesType } from "../interface/items";
 import { Loading, UserIcon } from "../component/misc";
 import { tsPropertySignature } from "@babel/types";
 import { NONAME } from "dns";
+import {LoadState} from "../interface/enums";
 
 function HNHeadline(props: {
   hn_id: number;
-  load_state: boolean;
+  load_state: LoadState;
   on_complete: () => void;
   ref?: any;
 }) {
@@ -61,7 +62,7 @@ function HNHeadline(props: {
     headlineElement = createHeadelineElement("href", headline.url, headline.title)
   }
 
-  return hidden || props.load_state ? null : redirect ? (
+  return hidden || (props.load_state == LoadState.InProcess) ? null : redirect ? (
     <Redirect push to={`/item/${headline.id}`}></Redirect>
   ) : (
       <li className="list-group-item my-2 border-top br4 v-base">
@@ -83,7 +84,7 @@ function HNHeadline(props: {
 
 const News: React.FC = (props: any) => {
   const [hn_ids, set_hn_ids]: [Array<number>, any] = useState([]);
-  const [load_state, set_loading]: [boolean, any] = useState(true); //true => loading, false => loaded
+  const [load_state, set_loading]: [LoadState, any] = useState(LoadState.InProcess);
   const [max_items, set_max_items]: [number, any] = useState(0);
   const ref_load_state = useRef(1);
   const ref_load_elem = useRef();
@@ -130,7 +131,13 @@ const News: React.FC = (props: any) => {
 
   function on_complete(): void {
     ++ref_load_state.current;
-    const state = ref_load_state.current < (max_items * 3) / 4;
+    let state;
+    if (ref_load_state.current < (max_items * 3) / 4) {
+      state = LoadState.InProcess;
+    }
+    else {
+      state = LoadState.Complete;
+    }
     if (state != load_state) {
       set_loading(state);
     }
@@ -165,7 +172,7 @@ const News: React.FC = (props: any) => {
       {[
         <ul className="list-group"> {items} </ul>,
         //@ts-ignore
-        load_state ? <Loading></Loading> : null,
+        load_state == LoadState.InProcess ? <Loading></Loading> : null,
       ]}
     </div>
   );
