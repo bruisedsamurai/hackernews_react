@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { UserIcon } from "../component/misc";
+
 export const Header: React.FC = (props: any) => {
   let pathname = props.location.pathname.slice(1);
 
@@ -32,17 +34,19 @@ export const Header: React.FC = (props: any) => {
   );
 };
 
-export const HNHeadline = (props:{
-  setRedirect: any,
-  title: string,
-  url?: string,
+export const HNHeadline = (props: {
+  setRedirect: any;
+  title: string;
+  url?: string;
 }) => {
-
-  let createHeadelineElement = (variablePropName: string, variablePropValue: any, headlineTitle: string) => {
+  let createHeadelineElement = (
+    variablePropName: string,
+    variablePropValue: any,
+    headlineTitle: string
+  ) => {
     const variableAttribute = { [variablePropName]: variablePropValue };
     return (
-      <a className="text-reset text-decoration-none"
-        {...variableAttribute} >
+      <a className="text-reset text-decoration-none" {...variableAttribute}>
         {headlineTitle}
       </a>
     );
@@ -51,11 +55,48 @@ export const HNHeadline = (props:{
   let headlineElement;
 
   if (props.url === undefined) {
-    headlineElement = createHeadelineElement("onClick", () => props.setRedirect(true), props.title);
-  }
-  else {
-    headlineElement = createHeadelineElement("href", props.url, props.title)
+    headlineElement = createHeadelineElement(
+      "onClick",
+      () => props.setRedirect(true),
+      props.title
+    );
+  } else {
+    headlineElement = createHeadelineElement("href", props.url, props.title);
   }
 
   return headlineElement;
-}
+};
+
+export const HNHeadlineMeta = (props: {
+  id: Number;
+  by: string;
+  descendants: number;
+  setHidden: any;
+}) => {
+  return (
+    <div className="p-1 text-gray-100">
+      <div className="dim dib">
+        <span>
+          <span className="mx-1">
+            <UserIcon></UserIcon>
+          </span>
+          {props.by}
+        </span>
+      </div>
+      <span className="mx-2">|</span>
+      <span
+        className="pointer dim dib"
+        onClick={(e) => {
+          props.setHidden(true);
+        }}
+      >{`hide`}</span>
+      <span className="mx-2">|</span>
+      <Link
+        className="text-reset text-decoration-none"
+        to={"/item/" + props.id}
+      >
+        {props.descendants != 0 ? props.descendants + " comments" : "discuss"}
+      </Link>
+    </div>
+  );
+};

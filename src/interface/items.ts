@@ -167,7 +167,7 @@ export function useHeadline(props: {
   return headline;
 }
 
-export const StoriesType: {[key: string]: string}= {
+export const StoriesType: { [key: string]: string } = {
   news: "topstories",
   new: "newstories",
   top: "topstories",

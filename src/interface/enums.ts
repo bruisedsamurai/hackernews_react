@@ -1,4 +1,4 @@
 export enum LoadState {
-    InProcess,
-    Complete,
-} 
+  InProcess,
+  Complete,
+}

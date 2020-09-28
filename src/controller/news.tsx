@@ -5,8 +5,8 @@ import { StoryItem, useHeadline, StoriesType } from "../interface/items";
 import { Loading, UserIcon } from "../component/misc";
 import { tsPropertySignature } from "@babel/types";
 import { NONAME } from "dns";
-import {LoadState} from "../interface/enums";
-import { HNHeadline } from "../component/sections"
+import { LoadState } from "../interface/enums";
+import { HNHeadline, HNHeadlineMeta } from "../component/sections";
 
 function HNStoryCard(props: {
   hn_id: number;
@@ -18,58 +18,51 @@ function HNStoryCard(props: {
     hn_id: props.hn_id,
     component_state: props.on_complete,
   });
-  const [hidden, isHidden] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [redirect, setRedirect] = useState(false); //Redirect to comments page
 
   let story_meta = headline.by ? (
-    <div className="p-1 text-gray-100">
-      <div className="dim dib">
-        <span>
-          <span className="mx-1"><UserIcon></UserIcon></span>
-          {headline.by}
-        </span>
-      </div>
-      <span className="mx-2">|</span>
-      <span
-        className="pointer dim dib"
-        onClick={(e) => {
-          isHidden(true);
-        }}
-      >{`hide`}</span>
-      <span className="mx-2">|</span>
-      <Link className="text-reset text-decoration-none" to={"/item/" + headline.id}>
-        {headline.descendants != 0
-          ? headline.descendants + " comments"
-          : "discuss"}
-      </Link>
-    </div>
+    <HNHeadlineMeta
+      id={headline.id}
+      by={headline.by}
+      descendants={headline.descendants}
+      setHidden={setHidden}
+    ></HNHeadlineMeta>
   ) : undefined;
 
-  let headlineElement = <HNHeadline title={headline.title} url={headline.url} setRedirect={setRedirect}></HNHeadline>
+  let headlineElement = (
+    <HNHeadline
+      title={headline.title}
+      url={headline.url}
+      setRedirect={setRedirect}
+    ></HNHeadline>
+  );
 
-  return hidden || (props.load_state == LoadState.InProcess) ? null : redirect ? (
+  return hidden || props.load_state == LoadState.InProcess ? null : redirect ? (
     <Redirect push to={`/item/${headline.id}`}></Redirect>
   ) : (
-      <li className="list-group-item my-2 border-top br4 v-base">
-        <div className="flex items-center">
-          <div className="mw3 mh1 text-center v-base">
-            <span className="db f6 light-silver">{headline.score}</span>
-            <span className="db f6 moon-gray">points</span>
-          </div>
-          <div>
-            <div className="my-1 ml-2 fw5 text-sm-center text-gray-500">
-              {headlineElement}
-            </div>
-            {story_meta}
-          </div>
+    <li className="list-group-item my-2 border-top br4 v-base">
+      <div className="flex items-center">
+        <div className="mw3 mh1 text-center v-base">
+          <span className="db f6 light-silver">{headline.score}</span>
+          <span className="db f6 moon-gray">points</span>
         </div>
-      </li>
-    );
+        <div>
+          <div className="my-1 ml-2 fw5 text-sm-center text-gray-500">
+            {headlineElement}
+          </div>
+          {story_meta}
+        </div>
+      </div>
+    </li>
+  );
 }
 
 const News: React.FC = (props: any) => {
   const [hn_ids, set_hn_ids]: [Array<number>, any] = useState([]);
-  const [load_state, set_loading]: [LoadState, any] = useState(LoadState.InProcess);
+  const [load_state, set_loading]: [LoadState, any] = useState(
+    LoadState.InProcess
+  );
   const [max_items, set_max_items]: [number, any] = useState(0);
   const ref_load_state = useRef(1);
   const ref_load_elem = useRef();
@@ -119,8 +112,7 @@ const News: React.FC = (props: any) => {
     let state;
     if (ref_load_state.current < (max_items * 3) / 4) {
       state = LoadState.InProcess;
-    }
-    else {
+    } else {
       state = LoadState.Complete;
     }
     if (state != load_state) {

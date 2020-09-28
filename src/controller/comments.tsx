@@ -191,7 +191,7 @@ const Comments: React.FC = (props: any) => {
 
   return (
     <main className="">
-      <div className="mh6-ns mh4-m mh1 ba b--light-gray">
+      <div>
         {story_meta}
         <article
           className="mv4"
