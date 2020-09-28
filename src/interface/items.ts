@@ -122,7 +122,7 @@ export enum ComponentState {
 }
 
 export function useHeadline(props: {
-  hn_id: number;
+  hn_id: Number;
   component_state?: () => void;
 }): StoryItem {
   let init: StoryItem = {

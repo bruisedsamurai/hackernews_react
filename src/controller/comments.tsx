@@ -9,6 +9,8 @@ import {
 } from "../interface/items";
 import { Loading } from "../component/misc";
 import { clone } from "@babel/types";
+import { HNStoryCard } from "../controller/news";
+import { LoadState } from "../interface/enums";
 
 enum LoadingState {
   COMPLETE,
@@ -154,27 +156,19 @@ const Comments: React.FC = (props: any) => {
     }
   }
 
-  let story_meta =
+  const [load_state, setLoading] = useState(LoadState.InProcess);
+
+  const on_complete = () => {
+    setLoading(LoadState.Complete);
+  };
+
+  const story_meta =
     headline && headline.by ? (
-      <div className="mv2 mh3">
-        <a className="no-underline orange dim ma1 f4-ns f5" href={headline.url}>
-          {headline.title}
-        </a>
-        <br></br>
-        <span className="ma1 f6">
-          {`${headline.score} points by ${headline.by} | `}
-          <Link
-            className="no-underline black dim"
-            to={"/item/" + headline.id}
-          >{`${headline.descendants} comments`}</Link>
-        </span>
-        {headline.text ? (
-          <p
-            className="pa2-ns pa1 f5 ba br2 b--light-gray shadow-3"
-            dangerouslySetInnerHTML={{ __html: headline.text }}
-          ></p>
-        ) : null}
-      </div>
+      <HNStoryCard
+        hn_id={headline.id}
+        load_state={load_state}
+        on_complete={on_complete}
+      ></HNStoryCard>
     ) : undefined;
 
   let comment, key: number;

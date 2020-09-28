@@ -8,8 +8,8 @@ import { NONAME } from "dns";
 import { LoadState } from "../interface/enums";
 import { HNHeadline, HNHeadlineMeta } from "../component/sections";
 
-function HNStoryCard(props: {
-  hn_id: number;
+export function HNStoryCard(props: {
+  hn_id: Number;
   load_state: LoadState;
   on_complete: () => void;
   ref?: any;
@@ -21,22 +21,24 @@ function HNStoryCard(props: {
   const [hidden, setHidden] = useState(false);
   const [redirect, setRedirect] = useState(false); //Redirect to comments page
 
-  let story_meta = headline.by ? (
-    <HNHeadlineMeta
-      id={headline.id}
-      by={headline.by}
-      descendants={headline.descendants}
-      setHidden={setHidden}
-    ></HNHeadlineMeta>
-  ) : undefined;
+  let story_meta =
+    headline && headline.by ? (
+      <HNHeadlineMeta
+        id={headline.id}
+        by={headline.by}
+        descendants={headline.descendants}
+        setHidden={setHidden}
+      ></HNHeadlineMeta>
+    ) : undefined;
 
-  let headlineElement = (
-    <HNHeadline
-      title={headline.title}
-      url={headline.url}
-      setRedirect={setRedirect}
-    ></HNHeadline>
-  );
+  let headlineElement =
+    headline && headline.by ? (
+      <HNHeadline
+        title={headline.title}
+        url={headline.url}
+        setRedirect={setRedirect}
+      ></HNHeadline>
+    ) : undefined;
 
   return hidden || props.load_state == LoadState.InProcess ? null : redirect ? (
     <Redirect push to={`/item/${headline.id}`}></Redirect>
