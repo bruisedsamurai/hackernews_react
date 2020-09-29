@@ -15,9 +15,9 @@ export const Header: React.FC = (props: any) => {
   let links = [];
 
   for (const path of paths) {
-    let className = "nav-link gray";
+    let className = "nav-link gray text-orange-500";
     if (pathname == path) {
-      className = className + " br2 bg-light-gray hover-black";
+      className = className + " br2 hover-black bg-orange-300";
     }
     let link = (
       <Link className={className} to={"/" + path}>
@@ -46,7 +46,10 @@ export const HNHeadline = (props: {
   ) => {
     const variableAttribute = { [variablePropName]: variablePropValue };
     return (
-      <a className="text-reset text-decoration-none" {...variableAttribute}>
+      <a
+        className="text-orange-900 text-decoration-none"
+        {...variableAttribute}
+      >
         {headlineTitle}
       </a>
     );
@@ -74,7 +77,7 @@ export const HNHeadlineMeta = (props: {
   setHidden: any;
 }) => {
   return (
-    <div className="p-1 text-gray-100">
+    <div className="p-1 text-orange-700">
       <div className="dim dib">
         <span>
           <span className="mx-1">
@@ -88,7 +91,7 @@ export const HNHeadlineMeta = (props: {
         className="text-reset text-decoration-none"
         to={"/item/" + props.id}
       >
-        {props.descendants != 0 ? props.descendants + " comments" : "discuss"}
+        {props.descendants ? props.descendants + " comments" : "discuss"}
       </Link>
     </div>
   );

@@ -15,5 +15,94 @@
 }
 
 .shadow-all {
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 2px $orange-200;
+}
+
+@mixin color-orange-list {
+  @for $i from 1 through 9 {
+    .orange-#{$i * 100}-m {
+      color: $orange-#{$i};
+    }
+  }
+}
+
+.text-orange-100 {
+  color: $orange-100;
+}
+
+.text-orange-200 {
+  color: $orange-200;
+}
+
+.text-orange-300 {
+  color: $orange-300;
+}
+
+.text-orange-400 {
+  color: $orange-400;
+}
+
+.text-orange-500 {
+  color: $orange-500;
+}
+
+.text-orange-600 {
+  color: $orange-600;
+}
+
+.text-orange-700 {
+  color: $orange-700;
+}
+
+.text-orange-800 {
+  color: $orange-800;
+}
+
+.text-orange-900 {
+  color: $orange-900;
+}
+
+.bg-orange-100 {
+  background-color: $orange-100;
+}
+
+.bg-orange-200 {
+  background-color: $orange-200;
+}
+
+.bg-orange-300 {
+  background-color: $orange-300;
+}
+
+.bg-orange-400 {
+  background-color: $orange-400;
+}
+
+.bg-orange-500 {
+  background-color: $orange-500;
+}
+
+.bg-orange-600 {
+  background-color: $orange-600;
+}
+
+.bg-orange-700 {
+  background-color: $orange-700;
+}
+
+.bg-orange-800 {
+  background-color: $orange-800;
+}
+
+.bg-orange-900 {
+  background-color: $orange-900;
+}
+
+.border-orange-color {
+  border-color: $orange-300 !important;
+}
+
+html,
+body {
+  background-color: $orange-100;
 }

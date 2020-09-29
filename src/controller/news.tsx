@@ -43,14 +43,14 @@ export function HNStoryCard(props: {
   return hidden || props.load_state == LoadState.InProcess ? null : redirect ? (
     <Redirect push to={`/item/${headline.id}`}></Redirect>
   ) : (
-    <li className="list-group-item my-1 border shadow-all rounded v-base">
+    <li className="list-group-item my-1 border border-orange-color shadow-all rounded v-base bg-orange-200">
       <div className="flex items-center">
         <div className="mw3 mh1 text-center v-base">
-          <span className="db f6 light-silver">{headline.score}</span>
-          <span className="db f6 moon-gray">points</span>
+          <span className="db f6 text-orange-700">{headline.score}</span>
+          <span className="db f6 text-orange-600">points</span>
         </div>
         <div>
-          <div className="my-1 ml-2 fw5 text-gray-500">{headlineElement}</div>
+          <div className="my-1 ml-2 fw5 ">{headlineElement}</div>
           {story_meta}
         </div>
       </div>

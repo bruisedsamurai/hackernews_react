@@ -75,13 +75,13 @@ function Comment(props: {
 
     if (hn_comment.is_valid) {
       comment_meta = (
-        <summary className="ml-2 mt-2 mt-m-3 f6 pa1 align-items-baseline">
+        <summary className="ml-2 mt-2 mt-m-3 f6 pa1 align-items-baseline text-orange-600">
           <span className="ml-2">{hn_comment.by}</span>
           <span className="ml-1">{hn_comment.time}</span>
         </summary>
       );
       comment_text = (
-        <p className="near-black m-2 px-1 px-sm-2">
+        <p className="near-black mx-3 mv-1 pb-2 text-orange-800">
           <span
             className="w-100"
             dangerouslySetInnerHTML={{ __html: hn_comment.text }}
@@ -91,12 +91,14 @@ function Comment(props: {
       child_comments =
         hn_comment.kids && hn_comment.kids.length
           ? hn_comment.kids.map((id, index) => (
-              <Comment
-                key={index}
-                loading_state={loading_state}
-                on_load={on_load}
-                hn_id={id as number}
-              ></Comment>
+              <div className="ml-1">
+                <Comment
+                  key={index}
+                  loading_state={loading_state}
+                  on_load={on_load}
+                  hn_id={id as number}
+                ></Comment>
+              </div>
             ))
           : null;
     }
@@ -109,7 +111,7 @@ function Comment(props: {
   return (
     <details
       id="icon"
-      className="rounded mw-100 shadow-lr b--black-20 "
+      className="rounded mw-100 shadow-lr b--black-20 bg-orange-200"
       open
       hidden={
         props.loading_state == LoadingState.PROCESSING || !hn_comment.is_valid
@@ -189,7 +191,7 @@ const Comments: React.FC = (props: any) => {
       <div>
         {story_meta}
         <article
-          className="mt-2"
+          className=""
           hidden={loading_state == LoadingState.PROCESSING ? true : false}
         >
           {comment}
