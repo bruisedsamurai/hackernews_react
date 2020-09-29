@@ -84,13 +84,6 @@ export const HNHeadlineMeta = (props: {
         </span>
       </div>
       <span className="mx-2">|</span>
-      <span
-        className="pointer dim dib"
-        onClick={(e) => {
-          props.setHidden(true);
-        }}
-      >{`hide`}</span>
-      <span className="mx-2">|</span>
       <Link
         className="text-reset text-decoration-none"
         to={"/item/" + props.id}
