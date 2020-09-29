@@ -7,7 +7,7 @@ import {
   StoryItem,
   useHeadline,
 } from "../interface/items";
-import { Loading } from "../component/misc";
+import { Loading, CaretDown } from "../component/misc";
 import { clone } from "@babel/types";
 import { HNStoryCard } from "../controller/news";
 import { LoadState } from "../interface/enums";
@@ -75,12 +75,13 @@ function Comment(props: {
 
     if (hn_comment.is_valid) {
       comment_meta = (
-        <summary className="mb2 f6 pa1">
-          {hn_comment.by + ` ${hn_comment.time}`}
+        <summary className="ml-2 mt-2 mt-m-3 f6 pa1 align-items-baseline">
+          <span className="ml-2">{hn_comment.by}</span>
+          <span className="ml-1">{hn_comment.time}</span>
         </summary>
       );
       comment_text = (
-        <p className="near-black mh2 pa2-ns pa1">
+        <p className="near-black m-2 px-1 px-sm-2">
           <span
             className="w-100"
             dangerouslySetInnerHTML={{ __html: hn_comment.text }}
@@ -108,7 +109,7 @@ function Comment(props: {
   return (
     <details
       id="icon"
-      className="mw-100 mt2-ns mv1-m mt1 mb0 ml3-ns ml1 mr0 f5-ns f6 bl br1 b--black-20 shadow-6"
+      className="rounded mw-100 shadow-lr b--black-20 "
       open
       hidden={
         props.loading_state == LoadingState.PROCESSING || !hn_comment.is_valid
@@ -188,7 +189,7 @@ const Comments: React.FC = (props: any) => {
       <div>
         {story_meta}
         <article
-          className="mv4"
+          className="mt-2"
           hidden={loading_state == LoadingState.PROCESSING ? true : false}
         >
           {comment}

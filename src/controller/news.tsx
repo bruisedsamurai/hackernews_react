@@ -43,7 +43,7 @@ export function HNStoryCard(props: {
   return hidden || props.load_state == LoadState.InProcess ? null : redirect ? (
     <Redirect push to={`/item/${headline.id}`}></Redirect>
   ) : (
-    <li className="list-group-item my-2 border-top br4 v-base">
+    <li className="list-group-item my-1 border shadow-all rounded v-base">
       <div className="flex items-center">
         <div className="mw3 mh1 text-center v-base">
           <span className="db f6 light-silver">{headline.score}</span>
