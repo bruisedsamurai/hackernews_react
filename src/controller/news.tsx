@@ -50,9 +50,7 @@ export function HNStoryCard(props: {
           <span className="db f6 moon-gray">points</span>
         </div>
         <div>
-          <div className="my-1 ml-2 fw5 text-sm-center text-gray-500">
-            {headlineElement}
-          </div>
+          <div className="my-1 ml-2 fw5 text-gray-500">{headlineElement}</div>
           {story_meta}
         </div>
       </div>

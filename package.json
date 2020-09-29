@@ -9,6 +9,8 @@
     "@types/react-dom": "16.9.0",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^4.3.5",
+    "bootstrap": "^5.0.0-alpha1",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
