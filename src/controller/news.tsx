@@ -7,6 +7,7 @@ import { tsPropertySignature } from "@babel/types";
 import { NONAME } from "dns";
 import { LoadState } from "../interface/enums";
 import { HNHeadline, HNHeadlineMeta } from "../component/sections";
+import { useStories } from "./hooks";
 
 export function HNStoryCard(props: {
   hn_id: Number;
@@ -18,7 +19,6 @@ export function HNStoryCard(props: {
     hn_id: props.hn_id,
     component_state: props.on_complete,
   });
-  const [hidden, setHidden] = useState(false);
   const [redirect, setRedirect] = useState(false); //Redirect to comments page
 
   let story_meta =
@@ -27,7 +27,6 @@ export function HNStoryCard(props: {
         id={headline.id}
         by={headline.by}
         descendants={headline.descendants}
-        setHidden={setHidden}
       ></HNHeadlineMeta>
     ) : undefined;
 
@@ -40,7 +39,7 @@ export function HNStoryCard(props: {
       ></HNHeadline>
     ) : undefined;
 
-  return hidden || props.load_state == LoadState.InProcess ? null : redirect ? (
+  return props.load_state == LoadState.InProcess ? null : redirect ? (
     <Redirect push to={`/item/${headline.id}`}></Redirect>
   ) : (
     <li className="list-group-item my-1 border border-orange-color shadow-all rounded v-base bg-orange-200">
@@ -59,40 +58,23 @@ export function HNStoryCard(props: {
 }
 
 const News: React.FC = (props: any) => {
-  const [hn_ids, set_hn_ids]: [Array<number>, any] = useState([]);
+  //const [hn_ids, set_hn_ids]: [Array<number>, any] = useState([]);
   const [load_state, set_loading]: [LoadState, any] = useState(
     LoadState.InProcess
   );
-  const [max_items, set_max_items]: [number, any] = useState(0);
+  //const [max_items, set_max_items]: [number, any] = useState(0);
   const ref_load_state = useRef(1);
   const ref_load_elem = useRef();
   let is_mounted = true;
 
   const location: string = props.match.url.slice(1);
 
-  useEffect(() => {
-    //@ts-ignore
-    let request = new Request(
-      `https://hacker-news.firebaseio.com/v0/${StoriesType[location]}.json`,
-      {
-        method: "GET",
-        cache: "default",
-      }
-    );
+  const [hn_ids, error] = useStories(StoriesType[location]);
 
-    fetch(request).then((response) => {
-      if (is_mounted && response.ok) {
-        response.json().then((data) => {
-          set_hn_ids(data);
-          set_max_items(100 > data.length ? data.length : 100);
-        });
-      }
-    });
-
-    return () => {
-      is_mounted = false;
-    };
-  }, [location]);
+  let max_items: number = 0;
+  if (hn_ids) {
+    max_items = 100 > hn_ids.length ? hn_ids.length : 100;
+  }
 
   useEffect(() => {
     if (ref_load_elem.current) {
@@ -121,17 +103,19 @@ const News: React.FC = (props: any) => {
   }
 
   const items = hn_ids
-    .slice(0, max_items)
-    .map((num) => (
-      <HNStoryCard
-        hn_id={num}
-        key={num}
-        load_state={load_state}
-        on_complete={on_complete}
-      ></HNStoryCard>
-    ));
+    ? hn_ids
+        .slice(0, max_items)
+        .map((num: number) => (
+          <HNStoryCard
+            hn_id={num}
+            key={num}
+            load_state={load_state}
+            on_complete={on_complete}
+          ></HNStoryCard>
+        ))
+    : null;
 
-  if (items[items.length - 1]) {
+  if (items && items[items.length - 1]) {
     let hn_id = hn_ids[max_items - 1];
     items[items.length - 1] = (
       <HNStoryCard

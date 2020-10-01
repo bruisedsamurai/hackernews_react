@@ -74,7 +74,7 @@ export const HNHeadlineMeta = (props: {
   id: Number;
   by: string;
   descendants: number;
-  setHidden: any;
+  setHidden?: any;
 }) => {
   return (
     <div className="p-1 text-orange-700">

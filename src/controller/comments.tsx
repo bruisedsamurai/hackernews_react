@@ -11,6 +11,7 @@ import { Loading, CaretDown } from "../component/misc";
 import { clone } from "@babel/types";
 import { HNStoryCard } from "../controller/news";
 import { LoadState } from "../interface/enums";
+import { useItem } from "./hooks";
 
 enum LoadingState {
   COMPLETE,
@@ -22,40 +23,16 @@ function Comment(props: {
   loading_state: any;
   on_load: () => void;
 }) {
-  const [hn_comment, set_hn_comment]: [CommentItemInterface, any] = useState(
-    new CommentItem({})
-  );
   const [loading_state, set_loading_state] = useState(LoadingState.PROCESSING);
   const loaded_elements = useRef(0);
-  const is_mounted = useRef(true);
 
-  useEffect(() => {
-    let request = new Request(
-      "https://hacker-news.firebaseio.com/v0/item/" + props.hn_id + ".json",
-      {
-        method: "GET",
-        cache: "default",
-      }
-    );
+  const [hnCommentData, error] = useItem(props.hn_id);
 
-    async function get_data() {
-      let response = await fetch(request);
-      if (response.ok) {
-        let data = await response.json();
-        return data;
-      }
-    }
-
-    if (is_mounted.current == true) {
-      get_data().then((data) => {
-        set_hn_comment(new CommentItem(data));
-        if (!data.kids) props.on_load();
-      });
-    }
-    return () => {
-      is_mounted.current = false;
-    };
-  }, [props.hn_id]);
+  let hn_comment = new CommentItem({});
+  if (hnCommentData) {
+    hn_comment = new CommentItem(hnCommentData);
+    if (!hnCommentData.kids) props.on_load();
+  }
 
   useEffect(() => {
     if (loading_state == LoadingState.COMPLETE) props.on_load();

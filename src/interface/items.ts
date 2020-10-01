@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { string } from "prop-types";
 import { CANCELLED } from "dns";
 
+import { useItem } from "../controller/hooks";
+
 export interface StoryItem {
   id: Number;
   type: string;
@@ -137,32 +139,17 @@ export function useHeadline(props: {
     kids: [],
   };
 
-  const [headline, set_headine]: [StoryItem, any] = useState(init);
+  let headline = init;
   let is_mounted = useRef(true);
 
-  useEffect(() => {
-    let request = new Request(
-      `https://hacker-news.firebaseio.com/v0/item/${props.hn_id}.json`,
-      {
-        method: "GET",
-        cache: "default",
-      }
-    );
-    fetch(request).then((response) => {
-      if (is_mounted.current && response.ok) {
-        if (props.component_state != undefined) {
-          props.component_state();
-        }
-        response.json().then((data) => {
-          set_headine(data);
-        });
-      }
-    });
+  const [data, error] = useItem(props.hn_id);
 
-    return () => {
-      is_mounted.current = false;
-    };
-  }, [props.hn_id]);
+  if (data) {
+    if (props.component_state != undefined) {
+      props.component_state();
+    }
+    headline = data;
+  }
 
   return headline;
 }
